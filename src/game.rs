@@ -15,7 +15,7 @@ pub fn get_user_move() -> char{
 
 pub fn player_turn(is_dealer: bool, player_vec: &mut Vec<Hand>, player: usize, deck: &mut Deck) -> bool {
     let mut turn_end: bool = false;
-    let hand_value: u8 = player_vec[player].value;
+    let hand_value: u8 = player_vec[player].get_value();
     // TODO: dealer turn:
     if is_dealer {
         // if dealer hand <= 16, deal a card and restart dealer turn

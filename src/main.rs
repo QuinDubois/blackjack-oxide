@@ -10,15 +10,14 @@ mod hand;
 mod game;
 
 
-
-
 fn main() {
     const DEALER: usize = 0; 
     
     println!("Welcome to Blackjack!");
 
     // Game Setup:
-    // ask how many players
+    // ask how many players 
+    // TODO: Limit to 5 maximum
     println!("How many players are playing?");
     let mut player_count_str: String = String::new();
     io::stdin().read_line(&mut player_count_str).expect("Failed to read line.");
@@ -54,7 +53,7 @@ fn main() {
         // evaluate hands, keeping track of any natural 21s
         let mut natural_list: Vec<usize> = Vec::new();
         for player in (0..player_list.len()).rev() {
-            match player_list[player].value.cmp(&21) {
+            match player_list[player].get_value().cmp(&21) {
                 Ordering::Equal => {
                     natural_list.push(player);
                 },
