@@ -38,18 +38,6 @@ impl Hand {
         self.value = self.eval_hand();
     }
 
-    pub fn pop_card(&mut self) -> Card {
-        let card = self.hand.pop().unwrap();
-        self.eval_hand();
-        card
-    }
-
-    pub fn remove_card(&mut self, index: usize) -> Card {
-        let card = self.hand.swap_remove(index);
-        self.eval_hand();
-        card
-    }
-
     pub fn to_string(&self, is_house: bool) -> String {
         let mut hand_str = String::from("");
         if is_house {

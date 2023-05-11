@@ -18,10 +18,19 @@ fn main() {
     // Game Setup:
     // ask how many players 
     // TODO: Limit to 5 maximum
-    println!("How many players are playing?");
-    let mut player_count_str: String = String::new();
-    io::stdin().read_line(&mut player_count_str).expect("Failed to read line.");
-    let player_count: usize = player_count_str.trim().parse().expect("Input is not an integer");
+    println!("How many players are playing? (min 1, max 5)");
+    let mut player_count: isize = 0;
+    loop {
+        let mut player_count_str: String = String::new();
+        io::stdin().read_line(&mut player_count_str).expect("Failed to read line.");
+        player_count = player_count_str.trim().parse().expect("Input is not an integer");
+
+        if player_count > 0 && player_count <= 5 {
+            break;
+        } else {
+            println!("Must be between 1 and 5 players.");
+        }
+    }
 
     // start game loop
     loop {
