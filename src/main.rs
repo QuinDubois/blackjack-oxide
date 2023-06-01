@@ -17,9 +17,8 @@ fn main() {
 
     // Game Setup:
     // ask how many players 
-    // TODO: Limit to 5 maximum
     println!("How many players are playing? (min 1, max 5)");
-    let mut player_count: isize = 0;
+    let mut player_count: isize;
     loop {
         let mut player_count_str: String = String::new();
         io::stdin().read_line(&mut player_count_str).expect("Failed to read line.");
@@ -110,10 +109,41 @@ fn main() {
     
         // highest hand value remaining wins or ties  
         // let mut winners_list: Vec<usize> = Vec::new();
-        // for player in (0..player_list.len()).rev() {
-        //     // TODO: accumulate winners
-            
-        // }
+        let mut max_score = 0;
+        let mut winners_list: Vec<usize> = Vec::new();
+        for player in (0..player_list.len()).rev() {
+            let player_score = player_list[player].get_value();
+            // TODO: accumulate winners
+
+            println!("Score: {}", player_score);
+            if player_score > 21 {
+                continue;
+            } else {
+                println!("comparing score");
+                match player_score.cmp(&max_score) {
+                    Ordering::Equal => {
+                        winners_list.push(player);
+                    },
+                    Ordering::Greater => {
+                        winners_list.clear();
+                        max_score = player_score;
+                        winners_list.push(player);
+                    },
+                    Ordering::Less => ()
+                }
+            }
+        }
+
+        for player in 0..winners_list.len() {
+            if winners_list[player] == DEALER {
+                println!("Dealer wins!");
+            } else {
+                println!("Player {} wins!", winners_list[player]);
+            }
+        }
+
+        // TODO: Ask to play another round
+
     }
         
 }
