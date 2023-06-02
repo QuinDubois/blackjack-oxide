@@ -143,6 +143,17 @@ fn main() {
         }
 
         // TODO: Ask to play another round
+        println!("Would you like to play again?");
+        let play_again: char;
+        let mut play_again_str: String = String::new();
+        io::stdin().read_line(&mut play_again_str).expect("Failed to read line.");
+        play_again = play_again_str.chars().nth(0).unwrap();
+
+        if play_again == 'y' {
+            println!("New round!");
+        } else {
+            break;
+        }
 
     }
         
