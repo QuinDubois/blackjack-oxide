@@ -10,19 +10,26 @@ mod hand;
 mod game;
 
 
-
-
 fn main() {
     const DEALER: usize = 0; 
     
     println!("Welcome to Blackjack!");
 
     // Game Setup:
-    // ask how many players
-    println!("How many players are playing?");
-    let mut player_count_str: String = String::new();
-    io::stdin().read_line(&mut player_count_str).expect("Failed to read line.");
-    let player_count: usize = player_count_str.trim().parse().expect("Input is not an integer");
+    // ask how many players 
+    println!("How many players are playing? (min 1, max 5)");
+    let mut player_count: isize;
+    loop {
+        let mut player_count_str: String = String::new();
+        io::stdin().read_line(&mut player_count_str).expect("Failed to read line.");
+        player_count = player_count_str.trim().parse().expect("Input is not an integer");
+
+        if player_count > 0 && player_count <= 5 {
+            break;
+        } else {
+            println!("Must be between 1 and 5 players.");
+        }
+    }
 
     // start game loop
     loop {
@@ -44,17 +51,12 @@ fn main() {
             if x > player_list.len()-1 { player = player - player_list.len(); }
             let card: Card = deck.draw_card().unwrap();
             player_list[player].push_card(card);
-            if player == DEALER {
-                println!("Hand: {}", player_list[player].to_string(true));
-            } else {
-                println!("Hand: {}", player_list[player].to_string(false));
-            }
         }
 
         // evaluate hands, keeping track of any natural 21s
         let mut natural_list: Vec<usize> = Vec::new();
         for player in (0..player_list.len()).rev() {
-            match player_list[player].value.cmp(&21) {
+            match player_list[player].get_value().cmp(&21) {
                 Ordering::Equal => {
                     natural_list.push(player);
                 },
@@ -102,10 +104,50 @@ fn main() {
     
         // highest hand value remaining wins or ties  
         // let mut winners_list: Vec<usize> = Vec::new();
-        // for player in (0..player_list.len()).rev() {
-        //     // TODO: accumulate winners
-            
-        // }
+        let mut max_score = 0;
+        let mut winners_list: Vec<usize> = Vec::new();
+        for player in (0..player_list.len()).rev() {
+            let player_score = player_list[player].get_value();
+            // TODO: accumulate winners
+
+            if player_score > 21 {
+                continue;
+            } else {
+                match player_score.cmp(&max_score) {
+                    Ordering::Equal => {
+                        winners_list.push(player);
+                    },
+                    Ordering::Greater => {
+                        winners_list.clear();
+                        max_score = player_score;
+                        winners_list.push(player);
+                    },
+                    Ordering::Less => ()
+                }
+            }
+        }
+
+        for player in 0..winners_list.len() {
+            if winners_list[player] == DEALER {
+                println!("Dealer wins!");
+            } else {
+                println!("Player {} wins!", winners_list[player]);
+            }
+        }
+
+        // TODO: Ask to play another round
+        println!("Would you like to play again?");
+        let play_again: char;
+        let mut play_again_str: String = String::new();
+        io::stdin().read_line(&mut play_again_str).expect("Failed to read line.");
+        play_again = play_again_str.chars().nth(0).unwrap();
+
+        if play_again == 'y' {
+            println!("New round!");
+        } else {
+            break;
+        }
+
     }
         
 }

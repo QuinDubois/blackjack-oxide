@@ -1,8 +1,8 @@
 use crate::card::Card;
 
 pub struct Hand {
-    pub hand: Vec<Card>,
-    pub value: u8,
+    hand: Vec<Card>,
+    value: u8,
 }
 
 impl Default for Hand {
@@ -29,7 +29,11 @@ impl Hand {
         hand_total
     }
 
-    pub fn push_card(&mut self, card: Card){
+    pub fn get_value(&self) -> u8 {
+        return self.value
+    }
+
+    pub fn push_card(&mut self, card: Card) {
         self.hand.push(card);
         self.value = self.eval_hand();
     }
