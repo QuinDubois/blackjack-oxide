@@ -1,4 +1,4 @@
-# rust-blackjack
+# blackjack-oxide
 A CLI blackjack game built in Rust
 
 
