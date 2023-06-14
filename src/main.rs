@@ -51,11 +51,6 @@ fn main() {
             if x > player_list.len()-1 { player = player - player_list.len(); }
             let card: Card = deck.draw_card().unwrap();
             player_list[player].push_card(card);
-            if player == DEALER {
-                println!("Hand: {}", player_list[player].to_string(true));
-            } else {
-                println!("Hand: {}", player_list[player].to_string(false));
-            }
         }
 
         // evaluate hands, keeping track of any natural 21s
@@ -115,11 +110,9 @@ fn main() {
             let player_score = player_list[player].get_value();
             // TODO: accumulate winners
 
-            println!("Score: {}", player_score);
             if player_score > 21 {
                 continue;
             } else {
-                println!("comparing score");
                 match player_score.cmp(&max_score) {
                     Ordering::Equal => {
                         winners_list.push(player);
